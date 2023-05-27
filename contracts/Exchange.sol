@@ -12,6 +12,8 @@
       owner = _owner;
     }
 
-
+   function getReverse () public view returns(uint){
+    return ERC20(owner).balanceOf(address(this));
+   }
 
   }
