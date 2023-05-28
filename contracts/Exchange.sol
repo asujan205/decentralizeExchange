@@ -15,11 +15,28 @@
    function getReverse () public view returns(uint){
     return ERC20(owner).balanceOf(address(this));
    }
-    function addLiquidity(uint amount) public payable returns (uint){
+    function addLiquidity(uint _amount) public payable returns (uint){
       uint liquidity;
       uint ethbalance = address(this).balance;
       uint reverse = getReverse();
       ERC20 token = ERC20(owner);
+    
+    if(reverse == 0){
+              token.transferFrom(msg.sender, address(this), _amount);
+              liquidity = ethbalance;
+              _mint(msg.sender, liquidity);
+
+
+    }
+    else{
+      uint ethreverse = ethbalance- msg.value;
+      uint tokenamount = (msg.value * reverse)/ethreverse;
+      require(tokenamount <= _amount, "not enough token");
+      token.transferFrom(msg.sender, address(this), tokenamount);
+      liquidity = msg.value*totalSupply()/ethreverse;
+      _mint(msg.sender, liquidity);
+    }
+    return liquidity;
     }
 
   }
