@@ -55,7 +55,12 @@
     uint256 inputreserve,
     uint256 outputreverse
     ) public pure returns (uint256)
-     {
+     {  
+      require(inputreserve > 0 && outputreverse > 0, "invalid reserve");
+      uint256 inputamountwithfee = inputamount * 99;
+      uint256 numerator = inputamountwithfee * outputreverse;
+      uint256 denominator = (inputreserve * 100) + inputamountwithfee;
+      return numerator / denominator;
 
     }
 
