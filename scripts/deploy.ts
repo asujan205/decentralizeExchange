@@ -1,24 +1,29 @@
-import { ethers } from "hardhat";
+const { ethers } = require("hardhat");
+require("dotenv").config({ path: ".env" });
+const { CRYPTO_DEV_TOKEN_CONTRACT_ADDRESS } = require("../constant");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const cryptoDevTokenAddress = CRYPTO_DEV_TOKEN_CONTRACT_ADDRESS;
+  /*
+  A ContractFactory in ethers.js is an abstraction used to deploy new smart contracts,
+  so exchangeContract here is a factory for instances of our Exchange contract.
+  */
+  const exchangeContract = await ethers.getContractFactory("Exchange");
 
-  const lockedAmount = ethers.utils.parseEther("0.001");
-
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(
-    `Lock with ${ethers.utils.formatEther(lockedAmount)}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+  // here we deploy the contract
+  const deployedExchangeContract = await exchangeContract.deploy(
+    cryptoDevTokenAddress
   );
+  await deployedExchangeContract.deployed();
+
+  // print the address of the deployed contract
+  console.log("Exchange Contract Address:", deployedExchangeContract.address);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+// Call the main function and catch if there is any error
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

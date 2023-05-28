@@ -1,5 +1,5 @@
  // SPDX-License-Identifier: MIT
-  pragma solidity ^0.8.4;
+  pragma solidity ^0.8.9;
 
   import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
@@ -64,7 +64,7 @@
 
     }
 
-    function ethToToken (uibr _minTokens) public payable{
+    function ethToToken (uint _minTokens) public payable{
       uint256 tokenReverse = getReverse();
       uint256 tokenBought = getAmountoftoken(msg.value, address(this).balance - msg.value, tokenReverse);
       require(tokenBought >= _minTokens, "token bought is less than min token");
