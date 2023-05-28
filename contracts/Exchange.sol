@@ -51,4 +51,16 @@
       return (ethamount, tokenamount);
     }
 
+    function getAmountoftoken(uint256 inputamount,
+    uint256 inputreserve,
+    uint256 outputreverse
+    ) public pure returns (uint256)
+     {
+
+    }
+
+
+
+
+
   }
