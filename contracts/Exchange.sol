@@ -64,6 +64,22 @@
 
     }
 
+    function ethToToken (uibr _minTokens) public payable{
+      uint256 tokenReverse = getReverse();
+      uint256 tokenBought = getAmountoftoken(msg.value, address(this).balance - msg.value, tokenReverse);
+      require(tokenBought >= _minTokens, "token bought is less than min token");
+      ERC20(owner).transfer(msg.sender, tokenBought);
+    }
+
+
+    function tokenToEth(uint256 _tokenAmount, uint256 _minEth) public {
+      uint256 tokenReverse = getReverse();
+      uint256 ethBought = getAmountoftoken(_tokenAmount, tokenReverse, address(this).balance);
+      require(ethBought >= _minEth, "eth bought is less than min eth");
+      ERC20(owner).transferFrom(msg.sender, address(this), _tokenAmount);
+      payable(msg.sender).transfer(ethBought);
+    }
+
 
 
 
