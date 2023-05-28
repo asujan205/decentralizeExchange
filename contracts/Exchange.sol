@@ -39,4 +39,16 @@
     return liquidity;
     }
 
+    function removeLiquidity(uint _amount ) public returns(uint, uint){
+      require(_amount > 0, "amount must be greater than 0");
+      uint ethreverse = address(this).balance;
+      uint _totalSupply = totalSupply();
+      uint ethamount = (_amount * ethreverse)/_totalSupply;
+      uint tokenamount = (_amount * getReverse())/_totalSupply;
+      _burn(msg.sender, _amount);
+      payable(msg.sender).transfer(ethamount);
+      ERC20(owner).transfer(msg.sender, tokenamount);
+      return (ethamount, tokenamount);
+    }
+
   }
