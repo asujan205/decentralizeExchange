@@ -15,5 +15,11 @@
    function getReverse () public view returns(uint){
     return ERC20(owner).balanceOf(address(this));
    }
+    function addLiquidity(uint amount) public payable returns (uint){
+      uint liquidity;
+      uint ethbalance = address(this).balance;
+      uint reverse = getReverse();
+      ERC20 token = ERC20(owner);
+    }
 
   }
