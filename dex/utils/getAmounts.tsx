@@ -20,3 +20,32 @@ export const getEtherBalance = async (
     return 0;
   }
 };
+
+export const getCDTokensBalance = async (provider: any, address: any) => {
+  try {
+    const tokenContract = new Contract(tokenAdd, tokenAbi, provider);
+    const balanceOfCryptoDevTokens = await tokenContract.balanceOf(address);
+    return balanceOfCryptoDevTokens;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getLPTokensBalance = async (provider: any, address: any) => {
+  try {
+    const exchangeContract = new Contract(nftAddress, nftAbi, provider);
+    const balanceOfLPTokens = await exchangeContract.balanceOf(address);
+    return balanceOfLPTokens;
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const getReserveOfCDTokens = async (provider: any) => {
+  try {
+    const exchangeContract = new Contract(nftAddress, nftAbi, provider);
+    const reserve = await exchangeContract.getReserve();
+    return reserve;
+  } catch (err) {
+    console.error(err);
+  }
+};
